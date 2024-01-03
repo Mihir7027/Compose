@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Enrich-News</string>
+    <string name="home">Home</string>
+    <string name="favourite">Favourite</string>
+</resources>

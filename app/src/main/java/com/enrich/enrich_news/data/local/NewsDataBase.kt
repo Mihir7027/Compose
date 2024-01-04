@@ -4,11 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.enrich.enrich_news.domain.model.Article
+import com.enrich.enrich_news.domain.model.User
 
 /**
- * Room database for managing news articles.
+ * Room database for managing news articles and users.
  */
-@Database(entities = [Article::class], version = 1)
+@Database(entities = [Article::class, User::class], version = 2)
 @TypeConverters(NewsTypeConverter::class)
 abstract class NewsDataBase : RoomDatabase() {
     /**
@@ -17,4 +18,11 @@ abstract class NewsDataBase : RoomDatabase() {
      * @return An instance of NewsDao.
      */
     abstract val newsDao: NewsDao
+
+    /**
+     * Provides access to the UserDao to perform database operations related to users.
+     *
+     * @return An instance of UserDao.
+     */
+    abstract val userDao: UserDao
 }

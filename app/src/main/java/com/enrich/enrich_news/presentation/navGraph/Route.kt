@@ -44,4 +44,17 @@ sealed class Route(
      * Route to the NewsNavigatorScreen.
      */
     object NewsNavigatorScreen : Route(route = "NewsNavigator")
+
+    /**
+     * Route to the User list screen.
+     */
+    object UserListScreen : Route(route = "userListScreen")
+
+
+    /**
+     * Route to the Add/Edit user screen.
+     */
+    object AddUserScreen : Route(route = "addUserScreen")
+
+
 }

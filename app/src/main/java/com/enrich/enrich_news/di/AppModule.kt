@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.enrich.enrich_news.data.local.NewsDao
 import com.enrich.enrich_news.data.local.NewsDataBase
 import com.enrich.enrich_news.data.local.NewsTypeConverter
+import com.enrich.enrich_news.data.local.UserDao
 import com.enrich.enrich_news.data.manager.LocalUserManagerImpl
 import com.enrich.enrich_news.data.remote.ApiInterface
 import com.enrich.enrich_news.data.repository.RemoteRepositoryImpl
@@ -19,6 +20,12 @@ import com.enrich.enrich_news.domain.usecases.news.NewsUseCases
 import com.enrich.enrich_news.domain.usecases.news.SelectArticle
 import com.enrich.enrich_news.domain.usecases.news.SelectArticleByUrl
 import com.enrich.enrich_news.domain.usecases.news.UpsertArticle
+import com.enrich.enrich_news.domain.usecases.user.DeleteUser
+import com.enrich.enrich_news.domain.usecases.user.GetUsers
+import com.enrich.enrich_news.domain.usecases.user.GetUsersById
+import com.enrich.enrich_news.domain.usecases.user.UpdateUser
+import com.enrich.enrich_news.domain.usecases.user.UpsertUser
+import com.enrich.enrich_news.domain.usecases.user.UserUseCases
 import com.enrich.enrich_news.util.Constants
 import com.enrich.enrich_news.util.Constants.BASE_URL
 import dagger.Module
@@ -89,6 +96,13 @@ object AppModule {
         return newsDataBase.newsDao
     }
 
+    // Provides a UserDao instance for accessing local database operations.
+    @Provides
+    @Singleton
+    fun provideUserDao(newsDataBase: NewsDataBase): UserDao {
+        return newsDataBase.userDao
+    }
+
     // Provides a RemoteRepository instance for handling remote data operations.
     @Provides
     @Singleton
@@ -111,4 +125,16 @@ object AppModule {
     }
 
 
+    // Provides UserUseCases for handling user-related use cases.
+    @Provides
+    @Singleton
+    fun provideUserUseCases(userDao: UserDao): UserUseCases {
+        return UserUseCases(
+            upsertUser = UpsertUser(userDao),
+            getUsers = GetUsers(userDao),
+            getUsersById = GetUsersById(userDao),
+            deleteUser = DeleteUser(userDao),
+            updateUser = UpdateUser(userDao),
+        )
+    }
 }
